@@ -4,4 +4,11 @@
 from setuptools import setup
 
 if __name__ == '__main__':
-    setup()
+    # TODO: fix
+    setup(
+        entry_points={
+            'console_scripts': [
+                'pincer = pincer.__main__:main'
+            ]
+        }
+    )
