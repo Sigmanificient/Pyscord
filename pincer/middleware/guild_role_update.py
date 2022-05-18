@@ -37,9 +37,7 @@ async def guild_role_update_middleware(
     """
 
     event = GuildRoleUpdateEvent.from_dict(payload.data)
-    guild = self.guilds.get(event.guild_id)
-
-    if guild:
+    if guild := self.guilds.get(event.guild_id):
         guild.roles = [
             role if role.id != event.role.id else event.role
             for role in guild.roles

@@ -253,10 +253,15 @@ def class_results_to_node(key, elements):
     title = attributetabletitle(key, key)
     ul = nodes.bullet_list('')
     for element in elements:
-        ref = nodes.reference('', '', internal=True,
-                              refuri='#' + element.fullname,
-                              anchorname='',
-                              *[nodes.Text(element.label)])
+        ref = nodes.reference(
+            '',
+            '',
+            *[nodes.Text(element.label)],
+            internal=True,
+            refuri=f'#{element.fullname}',
+            anchorname='',
+        )
+
         para = addnodes.compact_paragraph('', '', ref)
         if element.badge is not None:
             ul.append(attributetable_item('', element.badge, para))

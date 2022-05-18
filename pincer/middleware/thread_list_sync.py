@@ -36,9 +36,7 @@ async def thread_list_sync(
     """  # noqa: E501
 
     event = ThreadListSyncEvent.from_dict(payload.data)
-    guild = self.guilds.get(event.guild_id)
-
-    if guild:
+    if guild := self.guilds.get(event.guild_id):
         guild.threads = event.threads
 
     return "on_thread_list_sync", event

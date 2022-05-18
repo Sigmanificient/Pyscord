@@ -27,7 +27,7 @@ try:
 
     if TYPE_CHECKING:
         IMAGE_TYPE = Image
-except (ModuleNotFoundError, ImportError):
+except ImportError:
     PILLOW_IMPORT = False
 
 

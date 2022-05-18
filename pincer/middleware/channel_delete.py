@@ -37,8 +37,7 @@ async def channel_delete_middleware(
 
     channel = Channel.from_dict(payload.data)
 
-    guild = self.guilds.get(channel.guild_id)
-    if guild:
+    if guild := self.guilds.get(channel.guild_id):
         guild.channels = [c for c in guild.channels if c.id != channel.id]
 
     self.channels.pop(channel.id, None)

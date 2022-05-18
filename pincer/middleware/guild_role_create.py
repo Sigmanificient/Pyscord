@@ -37,9 +37,7 @@ async def guild_role_create_middleware(
     """  # noqa: E501
 
     event = GuildRoleCreateEvent.from_dict(payload.data)
-    guild = self.guilds.get(event.guild_id)
-
-    if guild:
+    if guild := self.guilds.get(event.guild_id):
         guild.roles.append(event.role)
 
     return ("on_guild_role_create", event)

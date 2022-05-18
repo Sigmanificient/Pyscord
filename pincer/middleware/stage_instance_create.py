@@ -38,8 +38,7 @@ async def stage_instance_create_middleware(
 
     stage = StageInstance.from_dict(payload.data)
 
-    guild = self.guilds.get(stage.guild_id)
-    if guild:
+    if guild := self.guilds.get(stage.guild_id):
         guild.stage_instances.append(stage)
 
     return "on_stage_instance_create", stage

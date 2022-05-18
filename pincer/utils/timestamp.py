@@ -144,7 +144,7 @@ class Timestamp:
 
         """
         if len(string := str(self.__time)) == 19:
-            return string + ".000"
+            return f"{string}.000"
         return string[:-3]
 
     def __int__(self) -> int:

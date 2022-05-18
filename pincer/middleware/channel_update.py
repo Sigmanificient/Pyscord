@@ -37,9 +37,7 @@ async def channel_update_middleware(
     """
 
     channel = Channel.from_dict(payload.data)
-    guild = self.guilds.get(channel.guild_id)
-
-    if guild:
+    if guild := self.guilds.get(channel.guild_id):
         guild.channels = replace(
             lambda _channel: _channel.id == channel.id,
             self.guilds[channel.guild_id].channels,

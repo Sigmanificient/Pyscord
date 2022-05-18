@@ -37,9 +37,7 @@ async def guild_stickers_update_middleware(
     """  # noqa: E501
 
     event = GuildStickersUpdateEvent.from_dict(payload.data)
-    guild = self.guilds.get(event.guild_id)
-
-    if guild:
+    if guild := self.guilds.get(event.guild_id):
         guild.stickers = event.stickers
 
     return ("on_guild_stickers_update", event)

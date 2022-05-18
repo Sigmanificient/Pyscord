@@ -23,7 +23,7 @@ class UnhandledException(PincerError):
 
     def __init__(self, specific: str):
         super(UnhandledException, self).__init__(
-            specific + " Please report this to the library devs."
+            f"{specific} Please report this to the library devs."
         )
 
 

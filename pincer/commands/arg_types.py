@@ -11,11 +11,11 @@ _log = logging.getLogger(__name__)
 
 
 class _CommandTypeMeta(type):
-    def __getitem__(cls, args: Union[Tuple, Any]):
+    def __getitem__(self, args: Union[Tuple, Any]):
         if not isinstance(args, tuple):
             args = (args,)
 
-        return cls(*args)
+        return self(*args)
 
 
 class CommandArg(metaclass=_CommandTypeMeta):
@@ -59,11 +59,14 @@ class CommandArg(metaclass=_CommandTypeMeta):
         )
 
     def get_arg(self, arg_type: T) -> T:
-        for arg in self.modifiers:
-            if isinstance(arg, arg_type):
-                return arg.get_payload()
-
-        return MISSING
+        return next(
+            (
+                arg.get_payload()
+                for arg in self.modifiers
+                if isinstance(arg, arg_type)
+            ),
+            MISSING,
+        )
 
 
 class Modifier(metaclass=_CommandTypeMeta):

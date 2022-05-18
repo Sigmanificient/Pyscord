@@ -37,9 +37,7 @@ async def guild_role_delete_middleware(
     """  # noqa: E501
 
     event = GuildRoleDeleteEvent.from_dict(payload.data)
-    guild = self.guilds.get(event.guild_id)
-
-    if guild:
+    if guild := self.guilds.get(event.guild_id):
         guild.roles = [
             role
             for role in self.guilds[event.guild_id].roles

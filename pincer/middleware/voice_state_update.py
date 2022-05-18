@@ -39,9 +39,7 @@ async def voice_state_update_middleware(
     """  # noqa: E501
 
     voice_state = VoiceState.from_dict(payload.data)
-    guild = self.guilds.get(voice_state.guild_id)
-
-    if guild:
+    if guild := self.guilds.get(voice_state.guild_id):
         for index, state in enumerate(guild.voice_states):
             if state.user_id == voice_state.user_id:
                 guild.voice_states[index] = voice_state

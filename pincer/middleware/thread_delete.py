@@ -37,8 +37,7 @@ async def thread_delete_middleware(
 
     channel = Channel.from_dict(payload.data)
 
-    guild = self.guilds.get(channel.guild_id)
-    if guild:
+    if guild := self.guilds.get(channel.guild_id):
         guild.threads = [c for c in guild.threads if c.id != channel.id]
 
     self.channels.pop(channel.id, None)

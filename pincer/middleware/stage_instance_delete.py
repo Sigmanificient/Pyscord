@@ -38,8 +38,7 @@ async def stage_instance_delete_middleware(
 
     stage = StageInstance.from_dict(payload.data)
 
-    guild = self.guilds.get(stage.guild_id)
-    if guild:
+    if guild := self.guilds.get(stage.guild_id):
         guild.stage_instances = [
             _stage for _stage in guild.stage_instances if _stage.id != stage.id
         ]

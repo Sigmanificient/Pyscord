@@ -19,10 +19,7 @@ def split_80_space(string: str, goal_list: List[str] = None) -> str:
 
     goal_list.append(reduced[::-1].rstrip())
 
-    return split_80_space(
-        '    ' + next_parse[::-1] + string[LINE_WRAP:],
-        goal_list
-    )
+    return split_80_space(f'    {next_parse[::-1]}{string[LINE_WRAP:]}', goal_list)
 
 
 def parse_list(string: str) -> List[str]:

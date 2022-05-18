@@ -37,9 +37,7 @@ async def guild_emojis_update_middleware(
     """  # noqa: E501
 
     event = GuildEmojisUpdateEvent.from_dict(payload.data)
-    guild = self.guild.get(event.guild_id)
-
-    if guild:
+    if guild := self.guild.get(event.guild_id):
         guild.emojis = event.emojis
 
     return ("on_guild_emojis_update", event)

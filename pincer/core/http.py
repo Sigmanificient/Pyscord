@@ -244,9 +244,7 @@ class HTTPClient:
 
             return await res.json()
 
-        exception = self.__http_exceptions.get(res.status)
-
-        if exception:
+        if exception := self.__http_exceptions.get(res.status):
             if isinstance(exception, RateLimitError):
                 timeout = (await res.json()).get("retry_after", 40)
 

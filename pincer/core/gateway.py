@@ -239,20 +239,12 @@ class Gateway:
             if msg.type == WSMsgType.TEXT:
                 await self.handle_data(msg.data)
             elif msg.type == WSMsgType.BINARY:
-                # Message from transport compression that isn't complete returns None
-                data = self.decompress_msg(msg.data)
-                if data:
+                if data := self.decompress_msg(msg.data):
                     await self.handle_data(data)
             elif msg.type == WSMsgType.ERROR:
                 raise GatewayError from self.__socket.exception()
 
-        # The loop is broken when the gateway stops receiving messages.
-        # The "error" op codes are in `self.__close_codes`. The rest of the
-        # close codes are unknown issues (such as an unintended disconnect) so the
-        # client should reconnect to the gateway.
-        err = self.__close_codes.get(self.__socket.close_code)
-
-        if err:
+        if err := self.__close_codes.get(self.__socket.close_code):
             raise err
 
         _log.debug(
@@ -270,9 +262,7 @@ class Gateway:
         """
         payload = GatewayDispatch.from_string(data)
 
-        # Op code -1 is activated on all payloads
-        op_negative_one = self.__dispatch_handlers.get(-1)
-        if op_negative_one:
+        if op_negative_one := self.__dispatch_handlers.get(-1):
             ensure_future(op_negative_one(payload))
 
         _log.debug(
@@ -385,12 +375,13 @@ class Gateway:
         Send a string object to the payload. Most of this method is just logging,
         the last line is the only one that matters for functionality.
         """
-        safe_payload = payload.replace(self.token, "%s..." % self.token[:10])
+        safe_payload = payload.replace(self.token, f"{self.token[:10]}...")
 
         if self.__session_id:
             safe_payload = safe_payload.replace(
-                self.__session_id, "%s..." % self.__session_id[:4]
+                self.__session_id, f"{self.__session_id[:4]}..."
             )
+
 
         _log.debug(
             "%s Sending payload: %s",

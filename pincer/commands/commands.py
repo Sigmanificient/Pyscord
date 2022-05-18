@@ -264,10 +264,14 @@ def command(
             if type(annotation) is CommandArg:
                 return annotation.get_arg(t)
             elif hasattr(annotation, "__metadata__"):
-                for obj in annotation.__metadata__:
-                    if isinstance(obj, t):
-                        return obj.get_payload()
-                return MISSING
+                return next(
+                    (
+                        obj.get_payload()
+                        for obj in annotation.__metadata__
+                        if isinstance(obj, t)
+                    ),
+                    MISSING,
+                )
 
         argument_description = (
             get_arg(Description) or "Description not set"
@@ -910,16 +914,10 @@ class ChatCommandHandler(metaclass=Singleton):
         local_registered_commands = self.get_local_registered_commands()
 
         def should_be_removed(target: AppCommand) -> bool:
-            for reg_cmd in local_registered_commands:
-                # Commands have endpoints based on their `name` amd `guild_id`. Other
-                # parameters can be updated instead of deleting and re-registering the
-                # command.
-                if (
-                    target.name == reg_cmd.name
-                    and target.guild_id == reg_cmd.guild_id
-                ):
-                    return False
-            return True
+            return not any(
+                (target.name == reg_cmd.name and target.guild_id == reg_cmd.guild_id)
+                for reg_cmd in local_registered_commands
+            )
 
         # NOTE: Cannot be generator since it can't be consumed due to lines 743-745
         to_remove = [*filter(should_be_removed, self._api_commands)]

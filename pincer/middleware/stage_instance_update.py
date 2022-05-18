@@ -38,8 +38,7 @@ async def stage_instance_update_middleware(
 
     stage = StageInstance.from_dict(payload.data)
 
-    guild = self.guilds.get(stage.guild_id)
-    if guild:
+    if guild := self.guilds.get(stage.guild_id):
         guild.stage_instances = replace(
             lambda _stage: _stage.id == stage.id, guild.stage_instances, stage
         )

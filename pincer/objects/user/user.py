@@ -20,7 +20,7 @@ PILLOW_IMPORT = True
 
 try:
     from PIL import Image
-except (ModuleNotFoundError, ImportError):
+except ImportError:
     PILLOW_IMPORT = False
 
 
@@ -197,7 +197,7 @@ class User(APIObject):
         -------
 
         """
-        return self.username + "#" + self.discriminator
+        return f"{self.username}#{self.discriminator}"
 
     @classmethod
     async def from_id(cls, client: Client, user_id: int) -> User:

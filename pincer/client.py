@@ -354,13 +354,13 @@ class Client:
         calls = _events.get(name.strip().lower())
 
         return (
-            []
-            if not calls
-            else [
+            [
                 call
                 for call in calls
                 if iscoroutinefunction(call) or isasyncgenfunction(call)
             ]
+            if calls
+            else []
         )
 
     def load_cog(self, path: str, package: Optional[str] = None):

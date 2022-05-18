@@ -28,7 +28,7 @@ author = "Sigmanificient, Arthurdw"
 # The full version, including alpha/beta/rc tags.
 release = __version__
 
-branch = 'main' if __version__.endswith('a') else 'v' + __version__
+branch = 'main' if __version__.endswith('a') else f'v{__version__}'
 
 # -- General configuration ---------------------------------------------------
 

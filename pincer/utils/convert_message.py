@@ -18,7 +18,7 @@ PILLOW_IMPORT = True
 
 try:
     from PIL.Image import Image
-except (ModuleNotFoundError, ImportError):
+except ImportError:
     PILLOW_IMPORT = False
 
 if TYPE_CHECKING:
